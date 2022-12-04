@@ -2,7 +2,7 @@ FROM node:16.13.1 as builder
 
 WORKDIR /app/admin
 
-ENV NODE_OPTIONS=--openssl-legacy-provider
+# ENV NODE_OPTIONS=--openssl-legacy-provider
 
 COPY . .
 
