@@ -27,7 +27,7 @@ COPY package*.json ./
 
 COPY develop.sh .
 
-COPY .env .
+# COPY .env .
 
 COPY medusa-config.js .
 
