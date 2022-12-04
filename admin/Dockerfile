@@ -1,6 +1,8 @@
-FROM node:latest
+FROM node:16.13.1 as builder
 
 WORKDIR /app/admin
+
+ENV NODE_OPTIONS=--openssl-legacy-provider
 
 COPY . .
 
@@ -8,14 +10,18 @@ RUN rm -rf node_modules
 
 RUN apt-get update
 
-RUN npm install -g npm@latest
+RUN yarn add sharp
 
-RUN npm install sharp
+RUN yarn global add gatsby-cli
 
-RUN npm install -g gatsby-cli
+RUN yarn install
 
-RUN npm install --loglevel=error
+RUN gatsby build
 
-RUN npm run build &> /dev/null
+FROM nginx
 
-CMD [ "gatsby", "develop", "-H", "0.0.0.0",  "-p", "7000" ]
+EXPOSE 80 
+
+COPY --from=builder /app/admin/public /usr/share/nginx/html
+
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
