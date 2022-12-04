@@ -20,7 +20,7 @@ RUN gatsby build
 
 FROM nginx
 
-EXPOSE 80 
+# EXPOSE 80 
 
 COPY --from=builder /app/admin/public /usr/share/nginx/html
 
